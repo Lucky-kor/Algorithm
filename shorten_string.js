@@ -12,8 +12,35 @@ function solution(s) {
   하나하나 비교하는 방법 이외에는 불가능합니다.
   앞열부터 숫자만큼 잘라서 전체 길이 비교 필요
   */
-  
+  //문자열 길이 1인 경우
+  if (s.length === 1) return 1;
+  let strings = [];
+  let maxLength = Math.floor(s.length / 2);
+
+  //첫번째 반복문은 압축할 문자열 길이 1부터 시작 ~ 문자열 길이 / 2
+  for (let i = 1; i <= maxLength; i++) {
+    const string = comparedString(s, i);
+    strings.push(string.length);
+  }
+  return Math.min(...strings);
 }
-const string = "abcabcabcabcdededededede";
+
+const comparedString = (str, len) => {
+  let cnt = 1;
+  let string = '';
+  for (let j = 0; j < str.length; j += len) {
+    const current = str.substr(j, len);
+    const next = str.substr(j + len, len);
+    if (current === next) {
+      cnt++;
+    } else {
+      string = cnt > 1 ? string + cnt + current : string + current;
+      cnt = 1;
+    }
+  }
+  return string;
+};
+
+const string = 'ababcdcdababcdcd';
 const result = solution(string);
-console.log(result)
+console.log(result);
